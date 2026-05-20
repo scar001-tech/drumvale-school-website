@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --background: 210 20% 96%;
+        --foreground: 210 50% 15%;
+
+        --card: 0 0% 99%;
+        --card-foreground: 210 50% 15%;
+
+        --popover: 0 0% 100%;
+        --popover-foreground: 210 50% 15%;
+
+        --primary: 210 63% 16%;
+        --primary-foreground: 0 0% 100%;
+
+        --secondary: 210 58% 30%;
+        --secondary-foreground: 0 0% 100%;
+
+        --muted: 210 20% 95%;
+        --muted-foreground: 210 15% 45%;
+
+        --accent: 41 52% 57%;
+        --accent-foreground: 210 63% 16%;
+
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 210 40% 98%;
+
+        --border: 210 20% 90%;
+        --input: 210 20% 90%;
+        --ring: 41 52% 57%;
+
+        --radius: 0.5rem;
+
+        --sky: 213 68% 71%;
+        --sky-foreground: 210 63% 16%;
+
+        --gold: 41 52% 57%;
+        --gold-foreground: 210 63% 16%;
+
+        --sidebar-background: 210 63% 16%;
+        --sidebar-foreground: 0 0% 98%;
+        --sidebar-primary: 41 52% 57%;
+        --sidebar-primary-foreground: 0 0% 100%;
+        --sidebar-accent: 210 58% 30%;
+        --sidebar-accent-foreground: 0 0% 98%;
+        --sidebar-border: 210 58% 25%;
+        --sidebar-ring: 41 52% 57%;
+
+        --font-heading: 'Montserrat', 'Poppins', sans-serif;
+        --font-body: 'Open Sans', sans-serif;
+    }
+
+    .dark {
+        --background: 210 50% 6%;
+        --foreground: 210 20% 95%;
+        --card: 210 50% 10%;
+        --card-foreground: 210 20% 95%;
+        --popover: 210 50% 10%;
+        --popover-foreground: 210 20% 95%;
+        --primary: 41 52% 57%;
+        --primary-foreground: 210 63% 16%;
+        --secondary: 210 58% 30%;
+        --secondary-foreground: 0 0% 98%;
+        --muted: 210 30% 15%;
+        --muted-foreground: 210 15% 60%;
+        --accent: 41 52% 57%;
+        --accent-foreground: 210 63% 16%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 210 40% 98%;
+        --border: 210 30% 20%;
+        --input: 210 30% 20%;
+        --ring: 41 52% 57%;
+        --sidebar-background: 210 50% 8%;
+        --sidebar-foreground: 210 20% 95%;
+        --sidebar-primary: 41 52% 57%;
+        --sidebar-primary-foreground: 210 63% 16%;
+        --sidebar-accent: 210 30% 15%;
+        --sidebar-accent-foreground: 210 20% 95%;
+        --sidebar-border: 210 30% 15%;
+        --sidebar-ring: 41 52% 57%;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+        font-family: var(--font-body);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: var(--font-heading);
+    }
+}
+
+@layer utilities {
+    .section-padding {
+        @apply px-4 py-16 md:px-8 lg:px-16 lg:py-24;
+    }
+
+    .heading-xl {
+        @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight;
+        font-family: var(--font-heading);
+    }
+
+    .heading-lg {
+        @apply text-3xl md:text-4xl font-bold tracking-tight;
+        font-family: var(--font-heading);
+    }
+
+    .heading-md {
+        @apply text-2xl md:text-3xl font-semibold;
+        font-family: var(--font-heading);
+    }
+
+    .text-body {
+        @apply text-base md:text-lg leading-relaxed;
+        font-family: var(--font-body);
+    }
+}
