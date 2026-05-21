@@ -1,4 +1,4 @@
-﻿import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -148,7 +148,7 @@ const Admissions = () => {
                                     {
                                         step: "3",
                                         title: "Application Review",
-                                        description: "Our admissions team reviews your application (5-7 business days).",
+                                        description: "Our admissions team reviews your application (5-7 academic days).",
                                         portal: "School Staff"
                                     },
                                     {

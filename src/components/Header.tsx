@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Search, Calendar, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
+import { Menu, X, Search, Calendar, Facebook, Twitter, Instagram, Youtube, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import NewsPopup from "@/components/NewsPopup";
 
 const navLinks = [
     { label: "Home", to: "/" },
@@ -18,7 +19,14 @@ const navLinks = [
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
+    const [isNewsOpen, setIsNewsOpen] = useState(false);
+    const [popupTab, setPopupTab] = useState<"news" | "events" | "calendar">("news");
     const location = useLocation();
+
+    const openPopup = (tab: "news" | "events" | "calendar") => {
+        setPopupTab(tab);
+        setIsNewsOpen(true);
+    };
 
     useEffect(() => {
         const handleScroll = () => setIsScrolled(window.scrollY > 40);
@@ -39,9 +47,9 @@ const Header = () => {
                         <Link to="/portal/staff" className="hover:text-accent transition-colors">Staff Portal</Link>
                     </div>
                     <div className="flex items-center gap-4">
-                        <a href="#" className="hover:text-accent transition-colors flex items-center gap-1">
+                        <button onClick={() => openPopup("calendar")} className="hover:text-accent transition-colors flex items-center gap-1 font-medium">
                             <Calendar className="w-3 h-3" /> Calendar
-                        </a>
+                        </button>
                         <span className="opacity-30">|</span>
                         <button className="hover:text-accent transition-colors"><Search className="w-3 h-3" /></button>
                         <div className="flex items-center gap-2 ml-2">
@@ -69,16 +77,32 @@ const Header = () => {
 
                     {/* Desktop Nav */}
                     <div className="hidden lg:flex items-center gap-1">
-                        {navLinks.map((link) => (
-                            <Link
-                                key={link.to}
-                                to={link.to}
-                                className={`px-3 py-2 text-sm font-medium rounded-md transition-colors hover:text-accent hover:bg-muted ${location.pathname === link.to ? "text-accent" : "text-foreground"
+                        {navLinks.map((link) => {
+                            if (link.label === "News & Events") {
+                                return (
+                                    <button
+                                        key={link.to}
+                                        onClick={() => openPopup("news")}
+                                        className={`px-3 py-2 text-sm font-medium rounded-md transition-colors hover:text-accent hover:bg-muted ${
+                                            location.pathname === link.to ? "text-accent font-semibold" : "text-foreground"
+                                        }`}
+                                    >
+                                        {link.label}
+                                    </button>
+                                );
+                            }
+                            return (
+                                <Link
+                                    key={link.to}
+                                    to={link.to}
+                                    className={`px-3 py-2 text-sm font-medium rounded-md transition-colors hover:text-accent hover:bg-muted ${
+                                        location.pathname === link.to ? "text-accent" : "text-foreground"
                                     }`}
-                            >
-                                {link.label}
-                            </Link>
-                        ))}
+                                >
+                                    {link.label}
+                                </Link>
+                            );
+                        })}
                     </div>
 
                     <div className="hidden lg:flex items-center gap-2">
@@ -92,28 +116,71 @@ const Header = () => {
                                 Apply Now
                             </Button>
                         </Link>
+                        <button
+                            onClick={() => openPopup("news")}
+                            className="relative p-2 text-foreground hover:text-accent transition-colors rounded-full hover:bg-muted ml-1"
+                            aria-label="Notifications"
+                        >
+                            <Bell className="w-4.5 h-4.5" />
+                            <span className="absolute top-1 right-1 flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                            </span>
+                        </button>
                     </div>
 
                     {/* Mobile Toggle */}
-                    <button className="lg:hidden p-2 text-foreground" onClick={() => setIsMobileOpen(!isMobileOpen)}>
-                        {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-                    </button>
+                    <div className="flex items-center gap-2 lg:hidden">
+                        <button
+                            onClick={() => openPopup("news")}
+                            className="relative p-2 text-foreground hover:text-accent transition-colors"
+                            aria-label="Notifications"
+                        >
+                            <Bell className="w-5 h-5" />
+                            <span className="absolute top-1 right-1 flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                            </span>
+                        </button>
+                        <button className="p-2 text-foreground" onClick={() => setIsMobileOpen(!isMobileOpen)}>
+                            {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                        </button>
+                    </div>
                 </div>
 
                 {/* Mobile Menu */}
                 {isMobileOpen && (
                     <div className="lg:hidden bg-card border-t border-border animate-fade-in">
                         <div className="px-4 py-4 flex flex-col gap-1">
-                            {navLinks.map((link) => (
-                                <Link
-                                    key={link.to}
-                                    to={link.to}
-                                    className={`px-4 py-3 rounded-md text-sm font-medium transition-colors ${location.pathname === link.to ? "bg-muted text-accent" : "text-foreground hover:bg-muted"
+                            {navLinks.map((link) => {
+                                if (link.label === "News & Events") {
+                                    return (
+                                        <button
+                                            key={link.to}
+                                            onClick={() => {
+                                                setIsMobileOpen(false);
+                                                openPopup("news");
+                                            }}
+                                            className={`px-4 py-3 rounded-md text-sm font-medium text-left transition-colors ${
+                                                location.pathname === link.to ? "bg-muted text-accent font-semibold" : "text-foreground hover:bg-muted"
+                                            }`}
+                                        >
+                                            {link.label}
+                                        </button>
+                                    );
+                                }
+                                return (
+                                    <Link
+                                        key={link.to}
+                                        to={link.to}
+                                        className={`px-4 py-3 rounded-md text-sm font-medium transition-colors ${
+                                            location.pathname === link.to ? "bg-muted text-accent" : "text-foreground hover:bg-muted"
                                         }`}
-                                >
-                                    {link.label}
-                                </Link>
-                            ))}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                );
+                            })}
                             <div className="flex gap-2 mt-4">
                                 <Link to="/admissions" className="flex-1">
                                     <Button variant="outline" className="w-full border-accent text-accent font-heading text-sm">Schedule Visit</Button>
@@ -126,6 +193,24 @@ const Header = () => {
                     </div>
                 )}
             </nav>
+
+            {/* NewsPopup Modal */}
+            <NewsPopup isOpen={isNewsOpen} onClose={() => setIsNewsOpen(false)} initialTab={popupTab} />
+
+            {/* Floating Updates Widget */}
+            <div className="fixed top-24 right-4 z-40">
+                <button
+                    onClick={() => openPopup("news")}
+                    className="relative flex items-center gap-2 px-3 py-2 bg-accent text-accent-foreground rounded-full shadow-lg hover:bg-accent/90 hover:scale-105 transition-all text-xs font-semibold group"
+                >
+                    <Bell className="w-4 h-4" />
+                    <span>Updates</span>
+                    <span className="absolute -top-0.5 -right-0.5 flex h-3 w-3">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                    </span>
+                </button>
+            </div>
         </header>
     );
 };

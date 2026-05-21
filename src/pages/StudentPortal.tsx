@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -73,6 +73,14 @@ const StudentPortal = () => {
     const [currentIntQ, setCurrentIntQ] = useState(0);
     const [score, setScore] = useState(0);
     const [passed, setPassed] = useState(false);
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const urlAppId = params.get("appId");
+        if (urlAppId) {
+            setAppId(urlAppId);
+        }
+    }, []);
 
     const lookupApplication = () => {
         const app = applications.find((a) => a.id === appId);

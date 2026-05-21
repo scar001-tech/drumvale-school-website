@@ -117,7 +117,7 @@ const EMPTY_FORM = {
 
 const ParentPortal = () => {
     const { submitApplication, applications, recordPayment } = usePortal();
-    const [activeTab, setActiveTab] = useState("overview");
+    const [activeTab, setActiveTab] = useState("apply");
     const [form, setForm] = useState({ ...EMPTY_FORM });
     const [submitting, setSubmitting] = useState(false);
     const [submittedId, setSubmittedId] = useState<string | null>(null);
@@ -193,7 +193,6 @@ const ParentPortal = () => {
                                 <Clock className="w-4 h-4 mr-2" /> Track Application
                             </TabsTrigger>
                         </TabsList>
-
                         {/* ── OVERVIEW ── */}
                         <TabsContent value="overview" className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -232,7 +231,7 @@ const ParentPortal = () => {
                                         {[
                                             ["Submit Application", "Complete the form with student & parent details and upload required documents."],
                                             ["SMS Confirmation", "You will receive an SMS confirming your application is pending review."],
-                                            ["School Review", "The admissions team reviews your application (5–7 business days)."],
+                                            ["School Review", "The admissions team reviews your application (5–7 academic days)."],
                                             ["SMS Decision", "You will receive an SMS informing you of approval or rejection."],
                                             ["Pay Fees", "If approved, pay school fees through the portal to proceed."],
                                             ["Assessment & Interview", "Your child completes an entrance assessment and interview via the Student Portal."],
@@ -508,9 +507,19 @@ const ParentPortal = () => {
 
                                             {/* Assessment phase */}
                                             {(app.status === "assessment" || app.status === "interview") && (
-                                                <Alert>
-                                                    <AlertDescription>
-                                                        Fees paid ✓ — Your child should now log in to the <strong>Student Portal</strong> using Application ID <strong>{app.id}</strong> to complete the assessment and interview.
+                                                <Alert className="bg-primary/5 border-primary/20">
+                                                    <AlertDescription className="flex flex-col gap-3">
+                                                        <div>
+                                                            Fees paid ✓ — Your child should now log in to the <strong>Student Portal</strong> using Application ID <strong>{app.id}</strong> to complete the assessment and interview.
+                                                        </div>
+                                                        <div className="flex gap-2">
+                                                            <a
+                                                                href={`/portal/students?appId=${app.id}`}
+                                                                className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+                                                            >
+                                                                Proceed to Student Portal
+                                                            </a>
+                                                        </div>
                                                     </AlertDescription>
                                                 </Alert>
                                             )}

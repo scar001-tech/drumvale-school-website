@@ -158,7 +158,7 @@ export function getSmsLogsByApplication(applicationId: string): SmsLog[] {
 
 export const SMS_TEMPLATES = {
     applicationSubmitted: (studentName: string, applicationId: string) =>
-        `Dear Parent, your application for ${studentName} has been received (ID: ${applicationId}). We will review it within 5-7 business days. - Drumvale Secondary School`,
+        `Dear Parent, your application for ${studentName} has been received (ID: ${applicationId}). We will review it within 5-7 academic days. - Drumvale Secondary School`,
 
     applicationApproved: (studentName: string, applicationId: string) =>
         `Great news! ${studentName}'s application (${applicationId}) has been APPROVED. Please log in to the Parent Portal to pay fees and proceed. - Drumvale School`,
